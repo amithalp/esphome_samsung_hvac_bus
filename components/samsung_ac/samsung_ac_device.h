@@ -136,6 +136,7 @@ namespace esphome
       Samsung_AC_Number *target_water_temperature{nullptr};
       Samsung_AC_Switch *power{nullptr};
       Samsung_AC_Switch *automatic_cleaning{nullptr};
+      Samsung_AC_Switch *filter_reset;
       Samsung_AC_Switch *water_heater_power{nullptr};
       Samsung_AC_Mode_Select *mode{nullptr};
       Samsung_AC_Water_Heater_Mode_Select *waterheatermode{nullptr};
@@ -265,6 +266,25 @@ namespace esphome
           ProtocolRequest request;
           request.automatic_cleaning = value;
           publish_request(request);
+        };
+      }
+
+      void set_filter_reset_switch(Samsung_AC_Switch *switch_)
+      {
+        filter_reset = switch_;
+
+        filter_reset->write_state_ = [this](bool value)
+        {
+          // Only act when the switch is turned ON.
+          if (!value)
+            return;
+
+          ProtocolRequest request;
+          request.filter_reset = true;
+          publish_request(request);
+
+          // Return the action switch to OFF immediately.
+          filter_reset->publish_state(false);
         };
       }
 
