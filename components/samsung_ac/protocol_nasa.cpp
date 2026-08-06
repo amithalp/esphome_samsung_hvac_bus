@@ -535,7 +535,14 @@ namespace esphome
                     automatic_cleaning.value = request.automatic_cleaning.value() ? 1 : 0;
                     packet.messages.push_back(automatic_cleaning);
                 }
-
+                if (request.filter_reset)
+                {
+                    MessageSet filter_reset(
+                        static_cast<MessageNumber>(0x4025)
+                    );
+                    filter_reset.value = 1;
+                    packet.messages.push_back(filter_reset);
+                }
                 if (request.water_heater_power)
                 {
                     MessageSet waterheaterpower(MessageNumber::ENUM_in_water_heater_power);
@@ -620,6 +627,9 @@ namespace esphome
 
             if (request.automatic_cleaning)
                 queued.automatic_cleaning = request.automatic_cleaning;
+
+            if (request.filter_reset)
+                queued.filter_reset = request.filter_reset;    
 
             if (request.water_heater_power)
                 queued.water_heater_power = request.water_heater_power;
