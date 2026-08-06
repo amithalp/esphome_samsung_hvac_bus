@@ -275,16 +275,14 @@ namespace esphome
 
         filter_reset->write_state_ = [this](bool value)
         {
-          // Only act when the switch is turned ON.
           if (!value)
             return;
+
+          filter_reset->publish_state(true);
 
           ProtocolRequest request;
           request.filter_reset = true;
           publish_request(request);
-
-          // Return the action switch to OFF immediately.
-          filter_reset->publish_state(false);
         };
       }
 
