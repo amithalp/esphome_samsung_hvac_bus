@@ -286,6 +286,23 @@ namespace esphome
         };
       }
 
+      void set_filter_warning_test_switch(Samsung_AC_Switch *switch_)
+      {
+        filter_warning_test = switch_;
+
+        filter_warning_test->write_state_ = [this](bool value)
+        {
+          if (!value)
+            return;
+
+          filter_warning_test->publish_state(true);
+
+          ProtocolRequest request;
+          request.filter_warning_test = true;
+          publish_request(request);
+        };
+      }
+
       void set_water_heater_power_switch(Samsung_AC_Switch *switch_)
       {
         water_heater_power = switch_;
