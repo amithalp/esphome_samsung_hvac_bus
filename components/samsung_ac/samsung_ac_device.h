@@ -137,7 +137,6 @@ namespace esphome
       Samsung_AC_Switch *power{nullptr};
       Samsung_AC_Switch *automatic_cleaning{nullptr};
       Samsung_AC_Switch *filter_reset;
-      Samsung_AC_Switch *filter_warning_test;
       Samsung_AC_Switch *water_heater_power{nullptr};
       Samsung_AC_Mode_Select *mode{nullptr};
       Samsung_AC_Water_Heater_Mode_Select *waterheatermode{nullptr};
