@@ -96,7 +96,6 @@ CONF_MAP_AUTO_TO_HEAT_COOL = "map_auto_to_heat_cool"
 CONF_DEBUG_LOG_MESSAGES_ON_CHANGE = "debug_log_messages_on_change"
 CONF_NON_NASA_TX_DELAY_MS = "non_nasa_tx_delay_ms"
 CONF_DEVICE_FILTER_RESET = "filter_reset"
-CONF_DEVICE_FILTER_WARNING_TEST = "filter_warning_test"
 
 CONF_CAPABILITIES = "capabilities"
 CONF_CAPABILITIES_FAN_MODES = "fan_modes"
@@ -285,9 +284,6 @@ DEVICE_SCHEMA = cv.Schema(
         ),
         cv.Optional(CONF_DEVICE_FILTER_RESET): switch.switch_schema(
              Samsung_AC_Switch, icon="mdi:air-filter"
-        ),
-        cv.Optional(CONF_DEVICE_FILTER_WARNING_TEST): switch.switch_schema(
-            Samsung_AC_Switch, icon="mdi:alert"
         ),
         cv.Optional(CONF_DEVICE_WATER_HEATER_POWER): switch.switch_schema(
             Samsung_AC_Switch
@@ -500,10 +496,6 @@ async def to_code(config):
             CONF_DEVICE_FILTER_RESET: (
                switch.new_switch,
                 var_dev.set_filter_reset_switch,
-            ),
-            CONF_DEVICE_FILTER_WARNING_TEST: (
-                switch.new_switch,
-                var_dev.set_filter_warning_test_switch,
             ),
             CONF_DEVICE_WATER_HEATER_POWER: (
                 switch.new_switch,
