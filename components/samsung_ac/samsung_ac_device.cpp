@@ -16,7 +16,7 @@ namespace esphome
 
       traits.add_feature_flags(climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
 
-      traits.set_visual_temperature_step(1);
+      traits.set_visual_temperature_step(0.5);
       traits.set_visual_min_temperature(16);
       traits.set_visual_max_temperature(30);
 
