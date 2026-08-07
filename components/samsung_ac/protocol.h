@@ -110,7 +110,6 @@ namespace esphome
             optional<bool> power;
             optional<bool> automatic_cleaning;
             optional<bool> filter_reset;
-            optional<bool> filter_warning_test;
             optional<bool> water_heater_power;
             optional<Mode> mode;
             optional<WaterHeaterMode> waterheatermode;
