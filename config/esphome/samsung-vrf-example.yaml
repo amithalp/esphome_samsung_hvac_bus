@@ -1,0 +1,151 @@
+# Samsung VRF - ESPHome example configuration
+#
+# Tested with:
+#   - Samsung VRF using NASA protocol
+#   - M5Stack Atom Lite
+#   - M5Stack Atomic RS485 Base
+#   - Samsung F1/F2 communication bus
+#
+# IMPORTANT:
+# Device addresses are installation-specific.
+# Discover the addresses of your indoor and outdoor units before
+# configuring the devices below.
+
+esphome:
+  name: samsung-vrf
+  friendly_name: Samsung VRF
+
+esp32:
+  board: m5stack-atom
+  framework:
+    type: esp-idf
+
+logger:
+  level: WARN
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Samsung-VRF Fallback Hotspot"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+# M5Stack Atom Lite + Atomic RS485 Base
+uart:
+  tx_pin: GPIO19
+  rx_pin: GPIO22
+  baud_rate: 9600
+  parity: EVEN
+  stop_bits: 1
+
+# Use a tagged release rather than a development branch.
+external_components:
+  - source:
+      type: git
+      url: https://github.com/amithalp/esphome_samsung_hvac_bus
+      ref: v1.0.0
+    components:
+      - samsung_ac
+    refresh: 0s
+
+samsung_ac:
+  debug_log_messages_on_change: false
+  debug_log_messages: false
+  debug_log_undefined_messages: false
+  debug_log_messages_raw: false
+
+  devices:
+
+    # ---------------------------------------------------------
+    # Indoor unit example
+    # Replace the address with the address discovered
+    # on your own Samsung installation.
+    # ---------------------------------------------------------
+
+    - address: "20.00.00"
+
+      climate:
+        name: "Bedroom AC Unit"
+
+      power:
+        name: "Bedroom AC Power"
+
+      # Momentary control used to reset Samsung's filter status.
+      filter_reset:
+        name: "Bedroom Reset Filter"
+
+      # Samsung filter-cleaning warning.
+      # NASA message 0x4027 was verified on the tested system.
+      custom_sensor:
+        - name: "Bedroom Filter Warning"
+          message: 0x4027
+          type: binary
+          device_class: problem
+          entity_category: diagnostic
+
+    # ---------------------------------------------------------
+    # Second indoor unit example
+    # ---------------------------------------------------------
+
+    - address: "20.00.01"
+
+      climate:
+        name: "Living Room AC Unit"
+
+      power:
+        name: "Living Room AC Power"
+
+      filter_reset:
+        name: "Living Room Reset Filter"
+
+      custom_sensor:
+        - name: "Living Room Filter Warning"
+          message: 0x4027
+          type: binary
+          device_class: problem
+          entity_category: diagnostic
+
+    # ---------------------------------------------------------
+    # Outdoor unit example
+    #
+    # 10.00.00 was the outdoor-unit address on the tested
+    # installation. Your address may be different.
+    # ---------------------------------------------------------
+
+    - address: "10.00.00"
+
+      outdoor_temperature:
+        name: "VRF Outdoor Temperature"
+        accuracy_decimals: 1
+
+      outdoor_instantaneous_power:
+        name: "VRF Outdoor Power"
+
+      outdoor_cumulative_energy:
+        name: "VRF Outdoor Energy"
+
+      outdoor_current:
+        name: "VRF Outdoor Current"
+
+      outdoor_voltage:
+        name: "VRF Outdoor Voltage"
+
+      outdoor_operation_odu_mode:
+        name: "VRF Outdoor ODU Mode"
+
+      outdoor_operation_heatcool:
+        name: "VRF Outdoor Heat Cool State"
