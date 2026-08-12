@@ -440,6 +440,7 @@ HVAC mode itself is available normally.
 
 ## Hubitat Integration
 
+📖 **Detailed Hubitat setup:** [Hubitat Integration Guide](docs/HUBITAT.md)
 The tested installation also integrates the Home Assistant entities with Hubitat using **Home Assistant Device Bridge (HADB)**.
 
 This is optional and is not required for the ESPHome component itself.
