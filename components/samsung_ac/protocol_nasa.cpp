@@ -537,9 +537,7 @@ namespace esphome
                 }
                 if (request.filter_reset)
                 {
-                    MessageSet filter_reset(
-                        static_cast<MessageNumber>(0x4025)
-                    );
+                    MessageSet filter_reset(MessageNumber::NASA_FILTER_CLEAN);
                     filter_reset.value = 1;
                     packet.messages.push_back(filter_reset);
                 }
@@ -629,7 +627,7 @@ namespace esphome
                 queued.automatic_cleaning = request.automatic_cleaning;
 
             if (request.filter_reset)
-                queued.filter_reset = request.filter_reset;    
+                queued.filter_reset = request.filter_reset;
 
             if (request.water_heater_power)
                 queued.water_heater_power = request.water_heater_power;
